@@ -1,0 +1,3 @@
+# no accidental npm commands
+node_modules
+package.lock.json
