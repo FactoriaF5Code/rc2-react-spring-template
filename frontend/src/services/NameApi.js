@@ -24,4 +24,14 @@ export class NameApi {
         return fetch(URL + "/" + id, headers)
             .then(response => response.json())
     }
+
+    editMember(id, member) {
+        const headers = {
+            method: 'put',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(member)
+        }
+        return fetch(URL + "/" + id, headers)
+            .then(response => response.json())
+    }
 }

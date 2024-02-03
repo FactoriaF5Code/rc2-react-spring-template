@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
 @RestController
 @RequestMapping("/members")
 class MemberController {
@@ -59,27 +57,24 @@ class MemberController {
     public ResponseEntity<MemberResponse> deleteMember(@PathVariable String id) {
         var uuid = UUID.fromString(id);
         return repository.findById(uuid)
-            .map( member -> {
-                repository.deleteById(member.getId());
-                return member;
-            })
-            .map(this::toMemberResponse)
-            .map(ResponseEntity::ok)
-            .orElseGet(ResponseEntity.notFound()::build);
+                .map(member -> {
+                    repository.deleteById(member.getId());
+                    return member;
+                })
+                .map(this::toMemberResponse)
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<MemberResponse> editMember(@PathVariable String id, @RequestBody MemberRequest request) {
         var uuid = UUID.fromString(id);
         return repository.findById(uuid)
-            .map( member -> {
-                repository.save(member);
-                return member;
-            })
-            .map(this::toMemberResponse)
-            .map(ResponseEntity::ok)
-            .orElseGet(ResponseEntity.notFound()::build);
-    }    
+                .map(member -> repository.save(toMember(request)))
+                .map(this::toMemberResponse)
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
+    }
 
     private MemberResponse toMemberResponse(Member member) {
         return new MemberResponse(member.getId().toString(), member.getName());
