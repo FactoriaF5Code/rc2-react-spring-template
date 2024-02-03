@@ -1,0 +1,7 @@
+{"properties": [
+  {
+    "name": "app.cors.client-url",
+    "type": "java.lang.String",
+    "description": "Client URL (allowed origin)"
+  }
+]}
